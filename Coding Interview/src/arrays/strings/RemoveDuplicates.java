@@ -1,5 +1,7 @@
 package arrays.strings;
 
+//demo for jenkins
+
 public class RemoveDuplicates {
 
 	
