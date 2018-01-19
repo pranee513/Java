@@ -1,0 +1,15 @@
+
+
+Cobol Data Type Examples
+http://www.3480-3590-data-conversion.com/article-packed-fields.html
+
+[11:09 PM] Ashok S: Given a numeric string and its COBOL datatype, you should be able to output the decimal format of it.
+[11:13 PM] Ashok S: I suggest you read and understand the COBOL datatypes and how it formats them. "9" in the datatype means numeric.
+For example 9(10) means a 10 digit numeric value, for example 0000007842("0" is optional. It is only for your understanding). 9(10).9(2) means 10 digit numeric with 2 digit decimal(precision), for example: 0000000023.67("0" is optional. It is only for your understanding)
+In COBOL if we do not intend to use the decimal point "." for a float value we use a "V" to represent a virtual decimal. So value 23.45 in 9(2)V9(2) will be shown as 2345. The decimal point is virtual here
+[11:16 PM] Ashok S: What I need is you to write a function which will take the cobol value and cobol datatype as input and give me the decimal output.
+Example
+public double convertToDecimal(String cobolValue, String cobolDatatype)
+{
+   return (convertedDecimal)
+}
