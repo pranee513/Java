@@ -1,0 +1,158 @@
+/**
+ * Created by pbathini on 2/15/2019.
+ */
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+public class ProductCSV {
+
+    public static final String CSV_PATH = "/Users/pbathini/Desktop/CSV.txt";
+    public static ArrayList<String> aList = new ArrayList<String>();
+
+    public static void main(String[] args) throws IOException {
+
+        readAllLinesFromFile(CSV_PATH);
+        System.out.println("Unsorted:\n");
+        for (String product : aList) {
+            System.out.println(product + "\n");
+        }
+
+        ArrayList<Product> products = convertToProducts(aList);
+        System.out.println("SORTED BY PRICE:\n");
+        for (Product product : products) {
+            System.out.println(product.toString());
+        }
+    }
+
+    public static ArrayList<String> readAllLinesFromFile(String path) throws IOException {
+
+        FileReader fileReader = new FileReader(path);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line = null;
+        while ((line = bufferedReader.readLine()) != null) {
+            aList.add(line);
+        }
+        bufferedReader.close();
+
+        return aList;
+
+    }
+
+    public static ArrayList<Product> convertToProducts(ArrayList<String> productStrings) {
+        ArrayList<Product> Products = new ArrayList<>();
+        //removing header from CSV
+        productStrings.remove(0);
+        for (String productString : productStrings) {
+            String[] parts = productString.split(",");
+            String Category = parts[0];
+            String part = parts[1];
+            String Description = parts[2];
+            String UOM = parts[3];
+            double price = Double.parseDouble(parts[4]);
+            double discount = Double.parseDouble(parts[5]);
+            Products.add(new Product(Category, part, Description, UOM, price, discount));
+        }
+
+        Collections.sort(Products, new Comparator<Product>() {
+
+            @Override
+            public int compare(Product o1, Product o2) {
+                return o1.compareTo(o2);
+            }
+        });
+        return Products;
+    }
+}
+
+
+/**
+ * Created by pbathini on 2/15/2019.
+ */
+public class Product  implements Comparable<Product> {
+   public String Category,part,Description,UOM;
+    public double price,discount;
+
+    public String getCategory() {
+        return Category;
+    }
+
+    public void setCategory(String category) {
+        Category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "Category='" + Category + '\'' +
+                ", part='" + part + '\'' +
+                ", Description='" + Description + '\'' +
+                ", UOM='" + UOM + '\'' +
+                ", price=" + price +
+                ", discount=" + discount +
+                '}';
+    }
+
+    public String getPart() {
+        return part;
+    }
+
+    public void setPart(String part) {
+        this.part = part;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public String getUOM() {
+        return UOM;
+    }
+
+    public void setUOM(String UOM) {
+        this.UOM = UOM;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public Product(String Category, String part, String Description, String UOM, double price, double discount) {
+        super();
+        this.Category = Category;
+        this.part = part;
+        this.Description = Description;
+        this.UOM = UOM;
+
+        this.price = price;
+        this.discount = discount;
+    }
+
+    @Override
+    public int compareTo(Product o) {
+        if(this.price == o.price) {
+            return this.Category.compareTo(o.Category);
+        } else {
+            return (o.price - this.price) > 0 ? 1 : -1;
+        }
+    }
+}
